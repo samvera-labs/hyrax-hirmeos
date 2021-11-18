@@ -22,6 +22,7 @@ jobs:
       ruby_version: << parameters.ruby_version >>
 
     parallelism: << parameters.parallelism >>
+    resource_class: medium+
 
     environment:
       RAILS_VERSION: << parameters.rails_version >>
@@ -30,7 +31,7 @@ jobs:
       DATABASE_USER: postgres
       DATABASE_TEST_NAME: circle_test
       BUNDLE_PATH: vendor/bundle
-      COVERALLS_PARALLEL: true
+      COVERALLS_PARALLEL: "true"
       BUNDLE_JOBS: 4
       BUNDLE_RETRY: 3
       RAILS_ENV: test
@@ -52,7 +53,7 @@ jobs:
       - samvera/rubocop
 
       - samvera/install_solr_core:
-          solr_config_path: 'spec/internal_test_hyrax/solr/config'
+          solr_config_path: .internal_test_app/solr/conf
 
       - run: bundle exec rails g hyrax:hirmeos:install
 
