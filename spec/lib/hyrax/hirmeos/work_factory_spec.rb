@@ -11,21 +11,21 @@ RSpec.describe Hyrax::Hirmeos::WorkFactory do
 
   it "Creates works with the correct structure" do
     structure = {
-      "title": [
+      title: [
         work.title[0].to_s
       ],
-      "uri": [
+      uri: [
         {
-          "uri": "https://localhost:3000/concern/generic_works/#{work.id}",
-          "canonical": true
+          uri: "https://localhost:3000/concern/generic_works/#{work.id}"
         },
         {
-          "uri": "urn:uuid:#{work.id}"
+          uri: "urn:uuid:#{work.id}",
+          canonical: true
         }
       ],
-      "type": "repository-work",
-      "parent": nil,
-      "children": nil
+      type: "repository-work",
+      parent: nil,
+      children: nil
     }
     factory_work = described_class.for(resource: work)
     expect(factory_work.to_json).to eq(structure.to_json)
