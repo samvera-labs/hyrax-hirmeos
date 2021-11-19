@@ -32,6 +32,10 @@ class Hyrax::Hirmeos::Client
     id_translation_connection.post('/uris', data.to_json)
   end
 
+  def patch_canonical_identifier(hirmeos_uuid, hyku_uuid)
+    id_translation_connection.patch("/uris?UUID=#{hirmeos_uuid}&URI=urn:uuid:#{hyku_uuid}&canonical=true")
+  end
+
   def generate_token(payload = build_payload)
     JWT.encode(payload, @secret)
   end

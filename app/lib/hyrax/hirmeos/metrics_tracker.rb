@@ -45,6 +45,11 @@ class Hyrax::Hirmeos::MetricsTracker
     []
   end
 
+  def patch_canonical_identifier(uuid)
+    hirmeos_uuid = get_translator_work_id(uuid)
+    client.patch_canonical_identifier(hirmeos_uuid, uuid)
+  end
+
   def resource_to_hirmeos_json(work)
     work_factory.for(resource: work)
   end

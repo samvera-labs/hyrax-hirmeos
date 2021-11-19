@@ -49,6 +49,16 @@ RSpec.describe Hyrax::Hirmeos::Client do
     end
   end
 
+  describe '#patch_canonical_identifier' do
+    before do
+      stub_request(:patch, "https://translator.example.com/uris?UUID=48b61e0a-f92c-4533-8270-b4caa98cbcfb&URI=urn:uuid:#{work.id}&canonical=true")
+    end
+    it 'sends a patch request to update the UUID as the canonical identifier' do
+      client.patch_canonical_identifier('48b61e0a-f92c-4533-8270-b4caa98cbcfb', work.id)
+      expect(a_request(:patch, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/uris?UUID=48b61e0a-f92c-4533-8270-b4caa98cbcfb&URI=urn:uuid:#{work.id}&canonical=true")).to have_been_made.at_least_once
+    end
+  end
+
   describe '#generate_token' do
     it 'generates a token for authentication' do
       sample_payload = {
