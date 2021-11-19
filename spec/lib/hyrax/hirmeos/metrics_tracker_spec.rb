@@ -124,8 +124,8 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
     end
 
     it "returns the work links" do
-      expect(result).to include({ canonical: true, uri: "https://localhost:3000/concern/generic_works/#{work.id}" })
-      expect(result).to include({ uri: "urn:uuid:#{work.id}" })
+      expect(result).to include({ uri: "https://localhost:3000/concern/generic_works/#{work.id}" })
+      expect(result).to include({ canonical: true, uri: "urn:uuid:#{work.id}" })
     end
 
     it "returns the file links" do
