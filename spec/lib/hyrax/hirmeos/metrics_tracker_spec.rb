@@ -14,7 +14,6 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
       data: [
         {
           URI: "https://dashboard.bertie.ubiquityrepo-ah.website/concern/pacific_images/92cfa1e1-4ab3-4fd3-9140-90eda7cd5ed9",
-          canonical: true,
           score: 0,
           URI_parts: {
             scheme: "https",
@@ -43,21 +42,21 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
     it 'Makes a call to the translator works endpoint if the work is not already registered' do
       stub_request(:get, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/translate?uri=urn:uuid:#{work.id}").to_return(status: 400)
       structure = {
-        "title": [
+        title: [
           work.title[0].to_s
         ],
-        "uri": [
+        uri: [
           {
-            "uri": "https://localhost:3000/concern/generic_works/#{work.id}",
-            "canonical": true
+            uri: "https://localhost:3000/concern/generic_works/#{work.id}"
           },
           {
-            "uri": "urn:uuid:#{work.id}"
+            uri: "urn:uuid:#{work.id}",
+            canonical: true
           }
         ],
-        "type": "repository-work",
-        "parent": nil,
-        "children": nil
+        type: "repository-work",
+        parent: nil,
+        children: nil
       }
       tracker.submit_to_hirmeos(work)
       expect(a_request(:post, tracker.translation_base_url + "/works").with(body: structure.to_json)).to have_been_made.at_least_once
