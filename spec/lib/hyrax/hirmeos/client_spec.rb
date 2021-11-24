@@ -13,16 +13,16 @@ RSpec.describe Hyrax::Hirmeos::Client do
   end
   let(:work) { create(:work) }
 
-  describe '#post_work' do
+  describe '#post_resource' do
     it "Makes a call to the translation api works endpoint" do
-      client.post_work(work)
+      client.post_resource(work)
       expect(a_request(:post, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/works")).to have_been_made.at_least_once
     end
   end
 
-  describe '#get_work' do
+  describe '#get_resource' do
     it 'Makes a call to get the work' do
-      client.get_work(work.id)
+      client.get_resource(work.id)
       expect(a_request(:get, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/translate?uri=urn:uuid:#{work.id}")).to have_been_made.at_least_once
     end
   end

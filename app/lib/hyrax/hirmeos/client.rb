@@ -12,19 +12,15 @@ class Hyrax::Hirmeos::Client
     @secret = secret
   end
 
-  def post_work(work)
-    id_translation_connection.post('/works', work.to_json)
+  def post_resource(resource)
+    id_translation_connection.post('/works', resource.to_json)
   end
 
-  def post_file(file)
-    id_translation_connection.post('/works', file.to_json)
-  end
-
-  def get_work(hyku_uuid)
+  def get_resource(hyku_uuid)
     id_translation_connection.get("/translate?uri=urn:uuid:#{hyku_uuid}")
   end
 
-  def get_work_identifiers(hirmeos_uuid)
+  def get_resource_identifiers(hirmeos_uuid)
     id_translation_connection.get("/works?uuid=#{hirmeos_uuid}")
   end
 

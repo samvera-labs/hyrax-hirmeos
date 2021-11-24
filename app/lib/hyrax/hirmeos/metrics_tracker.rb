@@ -7,9 +7,9 @@ class Hyrax::Hirmeos::MetricsTracker
   end
 
   def submit_to_hirmeos(resource_id, resource_json)
-    response = client.get_work(resource_id)
+    response = client.get_resource(resource_id)
     return if response.success?
-    client.post_work(resource_json)
+    client.post_resource(resource_json)
   end
 
   def submit_file_links_to_hirmeos_work(file_set)
@@ -22,7 +22,7 @@ class Hyrax::Hirmeos::MetricsTracker
 
   def submit_diff_to_hirmeos(work)
     hirmeos_uuid = get_translator_work_id(work.id)
-    existing_hirmeos_links = get_work_links(hirmeos_uuid)
+    existing_hirmeos_links = get_resource_links(hirmeos_uuid)
     latest_work_links = work_to_hirmeos_json_with_files(work, hirmeos_uuid)
 
     diff = latest_work_links.select { |link| !exists_link_uri?(link, at: existing_hirmeos_links) }
@@ -32,13 +32,13 @@ class Hyrax::Hirmeos::MetricsTracker
   end
 
   def get_translator_work_id(uuid)
-    response = client.get_work(uuid)
+    response = client.get_resource(uuid)
     work_json = JSON.parse(response.body) if response.success?
     work_json.dig('data', 0, 'work', 'UUID') if work_json.present?
   end
 
-  def get_work_links(hirmeos_uuid)
-    response = client.get_work_identifiers(hirmeos_uuid)
+  def get_resource_links(hirmeos_uuid)
+    response = client.get_resource_identifiers(hirmeos_uuid)
     JSON.parse(response.body)
         .dig("data", 0, "URI")
   rescue
