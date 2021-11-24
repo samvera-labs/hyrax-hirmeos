@@ -1,33 +1,33 @@
 # frozen_string_literal: true
 class Hyrax::Hirmeos::MetricsTracker
-  class_attribute :username, :password, :metrics_base_url, :translation_base_url, :secret, :work_factory
+  class_attribute :username, :password, :metrics_base_url, :translation_base_url, :secret, :work_factory, :file_set_factory
 
   def client
     @client ||= Hyrax::Hirmeos::Client.new(username, password, metrics_base_url, translation_base_url, secret)
   end
 
-  def submit_to_hirmeos(work)
-    response = client.get_work(work.id)
+  def submit_to_hirmeos(resource_id, resource_json)
+    response = client.get_work(resource_id)
     return if response.success?
-    client.post_work(resource_to_hirmeos_json(work))
+    client.post_work(resource_json)
   end
 
-  def submit_file_to_hirmeos(file_set)
+  def submit_file_links_to_hirmeos_work(file_set)
     work_id = file_set.parent_work_ids.first
     hirmeos_id = get_translator_work_id(work_id)
     file_set_links(file_set, hirmeos_id).each do |link|
-      client.post_files(link)
+      client.post_file_links(link)
     end
   end
 
   def submit_diff_to_hirmeos(work)
     hirmeos_uuid = get_translator_work_id(work.id)
     existing_hirmeos_links = get_work_links(hirmeos_uuid)
-    latest_work_links = resource_to_hirmeos_json_with_files(work, hirmeos_uuid)
+    latest_work_links = work_to_hirmeos_json_with_files(work, hirmeos_uuid)
 
     diff = latest_work_links.select { |link| !exists_link_uri?(link, at: existing_hirmeos_links) }
     diff.each do |diff_entry|
-      client.post_files("URI": diff_entry[:URI] || diff_entry[:uri], UUID: hirmeos_uuid)
+      client.post_file_links("URI": diff_entry[:URI] || diff_entry[:uri], UUID: hirmeos_uuid)
     end
   end
 
@@ -50,11 +50,15 @@ class Hyrax::Hirmeos::MetricsTracker
     client.patch_canonical_identifier(hirmeos_uuid, uuid)
   end
 
-  def resource_to_hirmeos_json(work)
+  def work_to_hirmeos_json(work)
     work_factory.for(resource: work)
   end
 
-  def resource_to_hirmeos_json_with_files(work, hirmeos_uuid)
+  def file_set_to_hirmeos_json(file_set)
+    file_set_factory.for(resource: file_set)
+  end
+
+  def work_to_hirmeos_json_with_files(work, hirmeos_uuid)
     work_links = work_factory.for(resource: work).uri
     work.file_sets.each do |file_set|
       work_links << file_set_links(file_set, hirmeos_uuid)

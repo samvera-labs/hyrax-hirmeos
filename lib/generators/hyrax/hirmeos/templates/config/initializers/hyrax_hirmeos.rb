@@ -15,6 +15,7 @@ Hyrax::Hirmeos::MetricsTracker.metrics_base_url = ENV["HIRMEOS_METRICS_BASE_URL"
 Hyrax::Hirmeos::MetricsTracker.translation_base_url = ENV["HIRMEOS_TRANSLATION_BASE_URL"]
 Hyrax::Hirmeos::MetricsTracker.secret = ENV['HIRMEOS_TRANSLATOR_KEY']
 Hyrax::Hirmeos::MetricsTracker.work_factory = Hyrax::Hirmeos::WorkFactory
+Hyrax::Hirmeos::MetricsTracker.file_set_factory = Hyrax::Hirmeos::FileSetFactory
 
 Hyrax.config.callback.set(:after_create_fileset) do |file_set, user|
   FileSetAttachedEventJob.perform_later(file_set, user)

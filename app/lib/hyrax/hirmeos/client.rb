@@ -16,6 +16,10 @@ class Hyrax::Hirmeos::Client
     id_translation_connection.post('/works', work.to_json)
   end
 
+  def post_file(file)
+    id_translation_connection.post('/works', file.to_json)
+  end
+
   def get_work(hyku_uuid)
     id_translation_connection.get("/translate?uri=urn:uuid:#{hyku_uuid}")
   end
@@ -28,7 +32,7 @@ class Hyrax::Hirmeos::Client
     id_translation_connection.delete('/works', uuid: "urn:uuid:#{hirmeos_uuid}")
   end
 
-  def post_files(data)
+  def post_file_links(data)
     id_translation_connection.post('/uris', data.to_json)
   end
 
@@ -41,6 +45,7 @@ class Hyrax::Hirmeos::Client
   end
 
   Work = Struct.new(:title, :uri, :type, :parent, :children)
+  FileSet = Struct.new(:title, :uri, :type, :parent, :children)
 
   private
 

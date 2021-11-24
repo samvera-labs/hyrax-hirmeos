@@ -33,7 +33,7 @@ RSpec.describe Hyrax::Hirmeos::Client do
         'UUID': '48b61e0a-f92c-4533-8270-b4caa98cbcfb',
         'URI': 'localhost:3000/downloads/1234567'
       }
-      client.post_files(data)
+      client.post_file_links(data)
       expect(a_request(:post, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/uris").with(body: '{"UUID":"48b61e0a-f92c-4533-8270-b4caa98cbcfb","URI":"localhost:3000/downloads/1234567"}')).to have_been_made.at_least_once # rubocop:disable Layout/LineLength
     end
   end
