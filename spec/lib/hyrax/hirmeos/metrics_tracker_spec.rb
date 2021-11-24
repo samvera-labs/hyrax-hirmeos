@@ -58,20 +58,22 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
         parent: nil,
         children: nil
       }
-      tracker.submit_to_hirmeos(work)
+      work_json = tracker.work_to_hirmeos_json(work)
+      tracker.submit_to_hirmeos(work.id, work_json)
       expect(a_request(:post, tracker.translation_base_url + "/works").with(body: structure.to_json)).to have_been_made.at_least_once
     end
 
     it 'does not call the register endpoint if a work is already registered' do
-      tracker.submit_to_hirmeos(work)
+      work_json = tracker.work_to_hirmeos_json(work)
+      tracker.submit_to_hirmeos(work.id, work_json)
       expect(a_request(:post, tracker.translation_base_url + "/works")).not_to have_been_made
     end
   end
 
-  describe '#submit_file_to_hirmeos' do
+  describe '#submit_file_links_to_hirmeos_work' do
     it 'Makes a request to the translator uri endpoint to add files to an existing work' do
       file_url = tracker.file_url(file_set)
-      tracker.submit_file_to_hirmeos(file_set)
+      tracker.submit_file_links_to_hirmeos_work(file_set)
 
       expect(a_request(:post, tracker.translation_base_url + "/uris")
                  .with(body: { "URI": file_url.to_s, "UUID": hirmeos_uuid }.to_json))
@@ -106,14 +108,14 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
     end
   end
 
-  describe '#resource_to_hirmeos_json' do
+  describe '#work_to_hirmeos_json' do
     it "Returns a Client Work Object" do
-      expect(tracker.resource_to_hirmeos_json(work)).to be_a_kind_of(Hyrax::Hirmeos::Client::Work)
+      expect(tracker.work_to_hirmeos_json(work)).to be_a_kind_of(Hyrax::Hirmeos::Client::Work)
     end
   end
 
-  describe '#resource_to_hirmeos_json_with_files' do
-    let(:result) { tracker.resource_to_hirmeos_json_with_files(work, hirmeos_uuid) }
+  describe '#work_to_hirmeos_json_with_files' do
+    let(:result) { tracker.work_to_hirmeos_json_with_files(work, hirmeos_uuid) }
 
     it "Returns a Array" do
       expect(result).to be_an Array

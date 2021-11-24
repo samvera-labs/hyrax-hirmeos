@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'rails_helper'
 
-RSpec.describe Hyrax::Hirmeos::HirmeosRegistrationJob do
+RSpec.describe Hyrax::Hirmeos::HirmeosWorkRegistrationJob do
   let(:work) { create(:work) }
 
   describe '#perform' do
