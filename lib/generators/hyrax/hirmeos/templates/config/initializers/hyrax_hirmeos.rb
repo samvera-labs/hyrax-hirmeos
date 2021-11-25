@@ -20,5 +20,5 @@ Hyrax::Hirmeos::MetricsTracker.file_set_factory = Hyrax::Hirmeos::FileSetFactory
 Hyrax.config.callback.set(:after_create_fileset) do |file_set, user|
   FileSetAttachedEventJob.perform_later(file_set, user)
   Hyrax::Hirmeos::HirmeosFileUpdaterJob.perform_later(file_set.id) if Hyrax::Hirmeos.configured?
-  Hyrax::Hirmeos::HirmeosFileSetRegistrationJob.perform_later(file_set) if Hyrax::Hirmeos.configured?
+  Hyrax::Hirmeos::HirmeosFileSetRegistrationJob.perform_later(file_set.id) if Hyrax::Hirmeos.configured?
 end
