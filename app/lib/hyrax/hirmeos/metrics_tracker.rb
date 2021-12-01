@@ -6,13 +6,13 @@ class Hyrax::Hirmeos::MetricsTracker
     @client ||= Hyrax::Hirmeos::Client.new(username, password, metrics_base_url, translation_base_url, secret)
   end
 
-  def submit_works_to_hirmeos(work_id, work_json)
+  def submit_work_to_hirmeos(work_id, work_json)
     response = client.get_resource(work_id)
     return if response.success?
     client.post_resource(work_json)
   end
 
-  def submit_file_sets_to_hirmeos(file_set_id, file_set_json)
+  def submit_file_set_to_hirmeos(file_set_id, file_set_json)
     response = client.get_resource(file_set_id)
     json_response = JSON.parse(response.body)
     return if file_already_registered?(json_response)
