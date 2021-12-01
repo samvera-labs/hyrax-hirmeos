@@ -5,7 +5,7 @@ module Hyrax
       def perform(work_id)
         work = ActiveFedora::Base.find(work_id)
         work_json = service.work_to_hirmeos_json(work)
-        service.submit_to_hirmeos(work_id, work_json)
+        service.submit_works_to_hirmeos(work_id, work_json)
       end
 
       private

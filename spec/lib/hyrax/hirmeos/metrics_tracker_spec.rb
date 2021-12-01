@@ -30,6 +30,10 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
     }
   end
 
+  let(:response_with_file) { {"status"=>"ok", "code"=>200, "count"=>7, "data"=>[{"URI_parts"=>{"scheme"=>"urn:uuid", "value"=>"76403343-4af0-4320-8002-07356f82dcfa"}, "canonical"=>true, "score"=>0, "URI"=>"urn:uuid:76403343-4af0-4320-8002-07356f82dcfa", "work"=>{"UUID"=>"59477857-aa8f-4bbc-aaa7-242204cae0fd", "type"=>"repository-file", "URI"=>[], "title"=>["multimodal_automl_on_structure.pdf"]}}, {"URI_parts"=>{"scheme"=>"urn:uuid", "value"=>"d068691e-0b1f-493c-9e7b-2c4471b3795b"}, "canonical"=>true, "score"=>0, "URI"=>"urn:uuid:d068691e-0b1f-493c-9e7b-2c4471b3795b", "work"=>{"UUID"=>"3b5a9bd9-cc58-4367-8868-f86db47c4ede", "type"=>"repository-work", "URI"=>[], "title"=>["test with correct PDF thumnail"]}}, {"URI_parts"=>{"scheme"=>"https", "value"=>"dashboard.demo.ubiquityrepo-ah.website/downloads/76403343-4af0-4320-8002-07356f82dcfa"}, "canonical"=>false, "score"=>0, "URI"=>"https://dashboard.demo.ubiquityrepo-ah.website/downloads/76403343-4af0-4320-8002-07356f82dcfa", "work"=>{"UUID"=>"59477857-aa8f-4bbc-aaa7-242204cae0fd", "type"=>"repository-file", "URI"=>[], "title"=>["multimodal_automl_on_structure.pdf"]}}, {"URI_parts"=>{"scheme"=>"https", "value"=>"demo.ubiquityrepo-ah.website/work/ns/d068691e-0b1f-493c-9e7b-2c4471b3795b"}, "canonical"=>false, "score"=>0, "URI"=>"https://demo.ubiquityrepo-ah.website/work/ns/d068691e-0b1f-493c-9e7b-2c4471b3795b", "work"=>{"UUID"=>"3b5a9bd9-cc58-4367-8868-f86db47c4ede", "type"=>"repository-work", "URI"=>[], "title"=>["test with correct PDF thumnail"]}}, {"URI_parts"=>{"scheme"=>"urn:uuid", "value"=>"76403343-4af0-4320-8002-07356f82dcfa"}, "canonical"=>false, "score"=>0, "URI"=>"urn:uuid:76403343-4af0-4320-8002-07356f82dcfa", "work"=>{"UUID"=>"3b5a9bd9-cc58-4367-8868-f86db47c4ede", "type"=>"repository-work", "URI"=>[], "title"=>["test with correct PDF thumnail"]}}, {"URI_parts"=>{"scheme"=>"https", "value"=>"dashboard.demo.ubiquityrepo-ah.website/downloads/76403343-4af0-4320-8002-07356f82dcfa"}, "canonical"=>false, "score"=>0, "URI"=>"https://dashboard.demo.ubiquityrepo-ah.website/downloads/76403343-4af0-4320-8002-07356f82dcfa", "work"=>{"UUID"=>"3b5a9bd9-cc58-4367-8868-f86db47c4ede", "type"=>"repository-work", "URI"=>[], "title"=>["test with correct PDF thumnail"]}}, {"URI_parts"=>{"scheme"=>"https", "value"=>"dashboard.demo.ubiquityrepo-ah.website/concern/ubiquity_template_works/d068691e-0b1f-493c-9e7b-2c4471b3795b"}, "canonical"=>false, "score"=>0, "URI"=>"https://dashboard.demo.ubiquityrepo-ah.website/concern/ubiquity_template_works/d068691e-0b1f-493c-9e7b-2c4471b3795b", "work"=>{"UUID"=>"3b5a9bd9-cc58-4367-8868-f86db47c4ede", "type"=>"repository-work", "URI"=>[], "title"=>["test with correct PDF thumnail"]}}]} }
+
+  let(:response_without_file) { {"status"=>"ok", "code"=>200, "count"=>5, "data"=>[{"URI_parts"=>{"scheme"=>"urn:uuid", "value"=>"d068691e-0b1f-493c-9e7b-2c4471b3795b"}, "canonical"=>true, "score"=>0, "URI"=>"urn:uuid:d068691e-0b1f-493c-9e7b-2c4471b3795b", "work"=>{"UUID"=>"3b5a9bd9-cc58-4367-8868-f86db47c4ede", "type"=>"repository-work", "URI"=>[], "title"=>["test with correct PDF thumnail"]}}, {"URI_parts"=>{"scheme"=>"https", "value"=>"dashboard.demo.ubiquityrepo-ah.website/concern/ubiquity_template_works/d068691e-0b1f-493c-9e7b-2c4471b3795b"}, "canonical"=>false, "score"=>0, "URI"=>"https://dashboard.demo.ubiquityrepo-ah.website/concern/ubiquity_template_works/d068691e-0b1f-493c-9e7b-2c4471b3795b", "work"=>{"UUID"=>"3b5a9bd9-cc58-4367-8868-f86db47c4ede", "type"=>"repository-work", "URI"=>[], "title"=>["test with correct PDF thumnail"]}}, {"URI_parts"=>{"scheme"=>"https", "value"=>"dashboard.demo.ubiquityrepo-ah.website/downloads/76403343-4af0-4320-8002-07356f82dcfa"}, "canonical"=>false, "score"=>0, "URI"=>"https://dashboard.demo.ubiquityrepo-ah.website/downloads/76403343-4af0-4320-8002-07356f82dcfa", "work"=>{"UUID"=>"3b5a9bd9-cc58-4367-8868-f86db47c4ede", "type"=>"repository-work", "URI"=>[], "title"=>["test with correct PDF thumnail"]}}, {"URI_parts"=>{"scheme"=>"https", "value"=>"demo.ubiquityrepo-ah.website/work/ns/d068691e-0b1f-493c-9e7b-2c4471b3795b"}, "canonical"=>false, "score"=>0, "URI"=>"https://demo.ubiquityrepo-ah.website/work/ns/d068691e-0b1f-493c-9e7b-2c4471b3795b", "work"=>{"UUID"=>"3b5a9bd9-cc58-4367-8868-f86db47c4ede", "type"=>"repository-work", "URI"=>[], "title"=>["test with correct PDF thumnail"]}}, {"URI_parts"=>{"scheme"=>"urn:uuid", "value"=>"76403343-4af0-4320-8002-07356f82dcfa"}, "canonical"=>false, "score"=>0, "URI"=>"urn:uuid:76403343-4af0-4320-8002-07356f82dcfa", "work"=>{"UUID"=>"3b5a9bd9-cc58-4367-8868-f86db47c4ede", "type"=>"repository-work", "URI"=>[], "title"=>["test with correct PDF thumnail"]}}]} }
+
   before do
     Hyrax::Hirmeos::MetricsTracker.username = "UsernameTest"
     Hyrax::Hirmeos::MetricsTracker.password = "Password"
@@ -38,7 +42,7 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
     stub_request(:get, Addressable::Template.new(path)).to_return(status: 200, body: hirmeos_work_data.to_json)
   end
 
-  describe '#register_work_to_hirmeos' do
+  describe '#submit_works_to_hirmeos' do
     it 'Makes a call to the translator works endpoint if the work is not already registered' do
       stub_request(:get, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/translate?uri=urn:uuid:#{work.id}").to_return(status: 400)
       structure = {
@@ -59,14 +63,41 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
         children: nil
       }
       work_json = tracker.work_to_hirmeos_json(work)
-      tracker.submit_to_hirmeos(work.id, work_json)
+      tracker.submit_works_to_hirmeos(work.id, work_json)
       expect(a_request(:post, tracker.translation_base_url + "/works").with(body: structure.to_json)).to have_been_made.at_least_once
     end
 
     it 'does not call the register endpoint if a work is already registered' do
       work_json = tracker.work_to_hirmeos_json(work)
-      tracker.submit_to_hirmeos(work.id, work_json)
+      tracker.submit_works_to_hirmeos(work.id, work_json)
       expect(a_request(:post, tracker.translation_base_url + "/works")).not_to have_been_made
+    end
+  end
+
+  describe '#submit_file_sets_to_hirmeos' do
+    it 'Makes a call to the translator works endpoint if the work is not already registered' do
+      path = "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/works?uuid=#{hirmeos_uuid}"
+      stub_request(:get, path).to_return(status: 200, body: hirmeos_work_data[:data].to_json)
+      structure = {
+        title: [
+          file_set.title[0].to_s
+        ],
+        uri: [
+          {
+            uri: "https://localhost:3000/downloads/#{file_set.id}"
+          },
+          {
+            uri: "urn:uuid:#{file_set.id}",
+            canonical: true
+          }
+        ],
+        type: "repository-file",
+        parent: nil,
+        children: nil
+      }
+      file_set_json = tracker.file_set_to_hirmeos_json(file_set)
+      tracker.submit_file_sets_to_hirmeos(file_set.id, file_set_json)
+      expect(a_request(:post, tracker.translation_base_url + "/works").with(body: structure.to_json)).to have_been_made.at_least_once
     end
   end
 
@@ -111,6 +142,12 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
   describe '#work_to_hirmeos_json' do
     it "Returns a Client Work Object" do
       expect(tracker.work_to_hirmeos_json(work)).to be_a_kind_of(Hyrax::Hirmeos::Client::Work)
+    end
+  end
+
+  describe '#file_set_to_hirmeos_json' do
+    it "Returns a Client Work Object" do
+      expect(tracker.file_set_to_hirmeos_json(file_set)).to be_a_kind_of(Hyrax::Hirmeos::Client::FileSet)
     end
   end
 
@@ -160,6 +197,16 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
   describe '#resource_to_uuid_update_hash' do
     it 'creates an update hash for each file' do
       expect(tracker.resource_to_uuid_update_hash(file_set.id, "1234-abcd-zyxw")).to eq({ URI: "urn:uuid:#{file_set.id}", UUID: "1234-abcd-zyxw" })
+    end
+  end
+
+  describe '#file_already_registered?' do
+    it 'returns false if there are no repository files in the reponse' do
+      expect(tracker.file_already_registered?(response_without_file)).to be_falsey
+    end
+
+    it 'returns true if there are repository files in the reponse' do
+      expect(tracker.file_already_registered?(response_with_file)).to be_truthy
     end
   end
 end
