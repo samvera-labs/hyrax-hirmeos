@@ -23,7 +23,7 @@ class Hyrax::Hirmeos::MetricsTracker
     json_response["data"].each do |resource|
       return true if resource['work']['type'] == "repository-file"
     end
-    return false
+    false
   end
 
   def submit_file_links_to_hirmeos_work(file_set)
