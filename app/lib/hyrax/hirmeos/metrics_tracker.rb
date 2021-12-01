@@ -20,10 +20,7 @@ class Hyrax::Hirmeos::MetricsTracker
   end
 
   def file_already_registered?(json_response)
-    json_response["data"].each do |resource|
-      return true if resource['work']['type'] == "repository-file"
-    end
-    false
+    json_response["data"].any? { |resource| resource.dig("work", "type") == "repository-file" }
   end
 
   def submit_file_links_to_hirmeos_work(file_set)

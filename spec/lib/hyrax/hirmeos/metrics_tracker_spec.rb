@@ -7,6 +7,8 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
   let(:work) { create(:work_with_files) }
   let(:file_set) { create(:file_with_work) }
   let(:hirmeos_uuid) { "48b61e0a-f92c-4533-8270-b4caa98cbcfb" }
+  let(:translation_path) { "#{tracker.translation_base_url}/translate?uri=urn:uuid:#{work.id}" }
+  let(:works_path) { "#{tracker.translation_base_url}/works?uuid=#{hirmeos_uuid}" }
   let(:hirmeos_work_data) do
     {
       count: 14,
@@ -41,16 +43,16 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
   # rubocop:enable Layout/LineLength
 
   before do
-    Hyrax::Hirmeos::MetricsTracker.username = "UsernameTest"
-    Hyrax::Hirmeos::MetricsTracker.password = "Password"
-    path = "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/translate?uri=urn:uuid:{id}"
+    tracker.username = "UsernameTest"
+    tracker.password = "Password"
+    path = "#{tracker.translation_base_url}/translate?uri=urn:uuid:{id}"
 
     stub_request(:get, Addressable::Template.new(path)).to_return(status: 200, body: hirmeos_work_data.to_json)
   end
 
   describe '#submit_works_to_hirmeos' do
     it 'Makes a call to the translator works endpoint if the work is not already registered' do
-      stub_request(:get, "#{path}/translate?uri=urn:uuid:#{work.id}").to_return(status: 400)
+      stub_request(:get, translation_path).to_return(status: 400)
       structure = {
         title: [
           work.title[0].to_s
@@ -69,21 +71,20 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
         children: nil
       }
       work_json = tracker.work_to_hirmeos_json(work)
-      tracker.submit_works_to_hirmeos(work.id, work_json)
-      expect(a_request(:post, tracker.translation_base_url + "/works").with(body: structure.to_json)).to have_been_made.at_least_once
+      tracker.submit_work_to_hirmeos(work.id, work_json)
+      expect(a_request(:post, "#{tracker.translation_base_url}/works").with(body: structure.to_json)).to have_been_made.at_least_once
     end
 
     it 'does not call the register endpoint if a work is already registered' do
       work_json = tracker.work_to_hirmeos_json(work)
-      tracker.submit_works_to_hirmeos(work.id, work_json)
-      expect(a_request(:post, tracker.translation_base_url + "/works")).not_to have_been_made
+      tracker.submit_work_to_hirmeos(work.id, work_json)
+      expect(a_request(:post, "#{tracker.translation_base_url}/works")).not_to have_been_made
     end
   end
 
   describe '#submit_file_sets_to_hirmeos' do
     it 'Makes a call to the translator works endpoint if the work is not already registered' do
-      path = "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/works?uuid=#{hirmeos_uuid}"
-      stub_request(:get, path).to_return(status: 200, body: hirmeos_work_data[:data].to_json)
+      stub_request(:get, works_path).to_return(status: 200, body: hirmeos_work_data[:data].to_json)
       structure = {
         title: [
           file_set.title[0].to_s
@@ -102,8 +103,8 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
         children: nil
       }
       file_set_json = tracker.file_set_to_hirmeos_json(file_set)
-      tracker.submit_file_sets_to_hirmeos(file_set.id, file_set_json)
-      expect(a_request(:post, tracker.translation_base_url + "/works").with(body: structure.to_json)).to have_been_made.at_least_once
+      tracker.submit_file_set_to_hirmeos(file_set.id, file_set_json)
+      expect(a_request(:post, "#{tracker.translation_base_url}/works").with(body: structure.to_json)).to have_been_made.at_least_once
     end
   end
 
@@ -124,8 +125,7 @@ RSpec.describe Hyrax::Hirmeos::MetricsTracker do
 
   describe '#submit_diff_to_hirmeos' do
     before do
-      path = "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/works?uuid=#{hirmeos_uuid}"
-      stub_request(:get, path).to_return(status: 200, body: hirmeos_work_data[:data].to_json)
+      stub_request(:get, works_path).to_return(status: 200, body: hirmeos_work_data[:data].to_json)
     end
 
     it 'Makes a request to the translator uri endpoint to if there are missing links' do
