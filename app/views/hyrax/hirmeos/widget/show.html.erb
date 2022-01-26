@@ -5,4 +5,18 @@
 <% end %>
 
 <div id='metrics-block'></div>
-<script src='https://storage.googleapis.com/operas/metrics-widget-0.0.19/widget.js'></script>
+<script>
+  window.hirmeoswidget = ((d, t, id) => {
+    const n = d.getElementsByTagName(t)[0];
+    const i = window.hirmeoswidget || {};
+    if (d.getElementById(id)) return i;
+    const s = d.createElement(t);
+    s.id = id;
+    s.src =
+      'https://storage.googleapis.com/operas/metrics-widget-0.2.0/widget.js';
+    n.parentNode.insertBefore(s, n);
+    i.eventQueue = [];
+    i.ready = ev => i.eventQueue.push(ev);
+    return i;
+  })(document, 'script', 'hirmeos-metrics');
+</script>
