@@ -4,6 +4,7 @@ module Hyrax
   module Hirmeos
     class HirmeosWorkUpdaterJob < ApplicationJob
       retry_on Faraday::TimeoutError, wait: 60.seconds
+      retry_on Ldp::Gone, wait: 60.seconds
 
       def perform(resource_id)
         resource = ActiveFedora::Base.find(resource_id)
