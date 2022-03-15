@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.name        = "hyrax-hirmeos"
   spec.version     = Hyrax::Hirmeos::VERSION
   spec.authors     = ["BertZZ"]
-  spec.email       = ["bertie.wooles@gmail.com", "tech@ubiquitypress.com"]
+  spec.email       = ["tech@ubiquitypress.com", "bertie.wooles@gmail.com"]
   spec.homepage    = ""
   spec.summary     = "A Hyrax plugin to allow collection and display of HIRMEOS metrics"
   spec.description = "Description of Hyrax::Hirmeos."
