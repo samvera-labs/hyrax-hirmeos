@@ -28,7 +28,7 @@ module Hyrax
       private
 
       def register_work_in_hirmeos(resource)
-        Hyrax::Hirmeos::HirmeosRegistrationJob.perform_later(resource.id) if Hyrax::Hirmeos.configured?
+        Hyrax::Hirmeos::HirmeosWorkRegistrationJob.perform_later(resource.id) if Hyrax::Hirmeos.configured?
       end
     end
   end
