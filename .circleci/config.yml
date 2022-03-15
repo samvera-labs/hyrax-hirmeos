@@ -42,8 +42,10 @@ jobs:
     steps:
       - samvera/cached_checkout
 
-      - run: git submodule init && git submodule update
-      # TODO: add caching to submodule checkout?
+      - run:
+          name: Install Hyku Base
+          command: |
+            git submodule init && git submodule update
 
       # FIXME: caching is not working
       - samvera/bundle:
@@ -53,7 +55,7 @@ jobs:
       - samvera/rubocop
 
       - samvera/install_solr_core:
-          solr_config_path: 'spec/internal_test_hyku/solr/config'
+          solr_config_path: "spec/internal_test_app/solr/conf"
 
       - run: bundle exec rails g hyrax:hirmeos:install
 
