@@ -53,7 +53,7 @@ jobs:
       - samvera/rubocop
 
       - samvera/install_solr_core:
-          solr_config_path: internal_test_app/solr/conf
+          solr_config_path: 'spec/internal_test_hyku/solr/config'
 
       - run: bundle exec rails g hyrax:hirmeos:install
 
