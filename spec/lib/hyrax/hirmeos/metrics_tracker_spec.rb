@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+
 require 'hyrax/hirmeos/metrics_tracker'
-require 'rails_helper'
 
 RSpec.describe Hyrax::Hirmeos::MetricsTracker do
   subject(:tracker) { described_class.new }

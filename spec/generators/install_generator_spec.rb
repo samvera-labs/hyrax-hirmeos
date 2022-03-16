@@ -1,6 +1,5 @@
 # frozen_string_literal: true
-require 'rails_helper'
-# Generators are not automatically loaded by Rails
+
 require 'generators/hyrax/hirmeos/install_generator'
 
 describe Hyrax::Hirmeos::InstallGenerator, type: :generator do
