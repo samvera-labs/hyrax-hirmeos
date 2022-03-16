@@ -21,8 +21,7 @@ jobs:
       name: 'samvera/ruby_fcrepo_solr_redis_postgres'
       ruby_version: << parameters.ruby_version >>
 
-    parallelism: << parameters.parallelism >>
-    resource_class: medium+
+    parallelism: 4
 
     environment:
       RAILS_VERSION: << parameters.rails_version >>
@@ -36,16 +35,20 @@ jobs:
       BUNDLE_RETRY: 3
       RAILS_ENV: test
       RACK_ENV: test
-      FCREPO_TEST_PORT: 8080/fcrepo
+      FCREPO_PORT: 8080/fcrepo
       SPEC_OPTS: --profile 10 --format RspecJunitFormatter --out /tmp/test-results/rspec.xml --format progress
+      CFLAGS: -Wno-error=format-overflow
+      # Enable bulkrax to avoid test failures due to odd view path order
+      SETTINGS__BULKRAX__ENABLED: "true"
+      RUBYOPT: "-W:no-deprecated -W:no-experimental"
+      REDIS_NAMESPACE_QUIET: "true"
 
     steps:
       - samvera/cached_checkout
 
       - run:
-          name: Install Hyku Base
-          command: |
-            git submodule init && git submodule update
+          name: Install submodule
+          command: git submodule init && git submodule update
 
       # FIXME: caching is not working
       - samvera/bundle:
@@ -55,53 +58,17 @@ jobs:
       - samvera/rubocop
 
       - samvera/install_solr_core:
-          solr_config_path: "spec/internal_test_hyrax/solr/conf"
+          solr_config_path: 'spec/internal_test_hyrax/solr/config'
 
-      - run: bundle exec rails g hyrax:hirmeos:install
-
-      # Setup CodeClimate
       - run:
+          name: Install Hyrax Hirmeos
+          command: bundle exec rails g hyrax:hirmeos:install
+
+      - run:
+          name: Run RSpec in Parallel
           command: |
-            if [[ $(command -v cc-test-reporter) == "" ]]; then
-              curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-              chmod +x ./cc-test-reporter
-            fi
-      - run:
-          command: ./cc-test-reporter before-build
-
-      - samvera/parallel_rspec
-
-      # Save coverage results for CodeClimate
-      - run:
-          command: ./cc-test-reporter format-coverage -t simplecov -o "coverage/codeclimate.$CIRCLE_NODE_INDEX.json"
-      - persist_to_workspace:
-          root: coverage
-          paths:
-            - codeclimate.*.json
-
-      - store_artifacts:
-          path: coverage
-
-  # Upload coverage to CodeClimate
-  upload_coverage:
-    parameters:
-      parallelism:
-        type: integer
-        default: 4
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - attach_workspace:
-          at: ~/project
-
-      - run:
-          name: Install Code Climate Test Reporter
-          command: |
-            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-            chmod +x ./cc-test-reporter
-      - deploy:
-          # CC_TEST_REPORTER_ID set within the circleci web interface
-          command: ./cc-test-reporter sum-coverage --output - --parts << parameters.parallelism >> codeclimate.*.json | ./cc-test-reporter upload-coverage --debug --input -
+            mkdir /tmp/test-results
+            bundle exec rspec $(circleci tests glob "spec/**/*_spec.rb" | grep -v "internal_test_hyrax" | circleci tests split --split-by=timings)
 
 workflows:
   ci:
@@ -109,7 +76,4 @@ workflows:
       - bundle_lint_test:
           name: ruby2-7-1
           parallelism: 1
-      - upload_coverage:
-          parallelism: 1
-          requires:
-            - ruby2-7-1
+
