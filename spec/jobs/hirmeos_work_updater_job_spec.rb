@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'rails_helper'
 
 RSpec.describe Hyrax::Hirmeos::HirmeosWorkUpdaterJob do
   let(:work) { create(:work_with_one_file) }

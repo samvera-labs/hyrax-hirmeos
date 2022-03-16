@@ -1,6 +1,6 @@
 # frozen_string_literal: true
+
 require 'hyrax/hirmeos/client'
-require 'rails_helper'
 require 'jwt'
 
 RSpec.describe Hyrax::Hirmeos::Client do

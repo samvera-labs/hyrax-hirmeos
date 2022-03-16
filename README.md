@@ -1,8 +1,8 @@
 # Hyrax::Hirmeos
 
-`Hyrax::Hirmeos` is responsible for sending Hyrax works and file set unique identifiers to OPERAS/HIRMEOS so that Alt-metrics can be collected and displayed. Metrics are a traditional way to measure popularity of publications in the scientific community (i.e. how many time a paper has been cited). Information about the HIRMEOS project can be found here https://www.hirmeos.eu/
+`Hyrax::Hirmeos` is responsible for sending Hyrax works and file set unique identifiers to OPERAS/HIRMEOS so that Alt-metrics can be collected and displayed. Metrics are a traditional way to measure popularity of publications in the scientific community (i.e. how many times a paper has been cited). Information about the HIRMEOS project can be found here https://www.hirmeos.eu/
 
-## Usage
+## Install into your Hyrax/Hyku installation
 
 ### Setting up HIRMEOS
 1) Set up tokens service
@@ -40,19 +40,13 @@ This is a simple tool for posting metrics, that have been collected, to the metr
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'hyrax-hirmeos'
+gem 'hyrax-hirmeos', git: 'https://github.com/ubiquitypress/hyrax-hirmeos', branch: 'main'
 ```
 
 And then execute:
 
 ```bash
 bundle install
-```
-
-Or install it yourself as:
-
-```bash
-gem install hyrax-hirmeos
 ```
 
 When you have installed the gem, or set it up locally, you will need to run:
@@ -70,8 +64,14 @@ cd spec/internal_test_hyrax;
 git submodule init && git submodule update
 ```
 
-## Tests
+Then you can build the application from the root folder (`cd ../../`):
 
 ```bash
-docker-compose exec -it web bundle exec rspec
+docker-compose up --build
+```
+
+## Testing
+
+```bash
+docker-compose exec web bundle exec rspec
 ```
