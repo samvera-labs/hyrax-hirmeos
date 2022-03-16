@@ -7,7 +7,7 @@
 Add the following to your Gemfile:
 
 ```ruby
-gem 'hyrax-orcid', git: 'https://github.com/ubiquitypress/hyrax-orcid', branch: 'main'
+gem 'hyrax-hirmeos', git: 'https://github.com/ubiquitypress/hyrax-hirmeos', branch: 'main'
 ```
 
 And then execute:
