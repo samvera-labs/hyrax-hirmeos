@@ -15,15 +15,36 @@ gem 'hyrax-hirmeos'
 ```
 
 And then execute:
+
 ```bash
-$ bundle
+bundle install
 ```
 
 Or install it yourself as:
+
 ```bash
-$ gem install hyrax-hirmeos
+gem install hyrax-hirmeos
 ```
 
-## License
+When you have installed the gem, or set it up locally, you will need to run:
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+```bash
+bundle exec rails g hyrax-hirmeos:install
+```
+
+## Development
+
+When cloning, you will need to bring in the Hyrax submodule by:
+
+```bash
+cd spec/internal_test_hyrax;
+git submodule init && git submodule update
+```
+
+```
+
+## Tests
+
+```bash
+docker-compose exec -it web bundle exec rspec
+```
