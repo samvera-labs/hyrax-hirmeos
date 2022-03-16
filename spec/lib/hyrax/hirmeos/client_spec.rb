@@ -67,23 +67,4 @@ RSpec.describe Hyrax::Hirmeos::Client do
       expect(token).to eq("exampleToken")
     end
   end
-
-  # describe '#generate_token' do
-  #   it 'generates a token for authentication' do
-  #     sample_payload = {
-  #       "app": "hyku",
-  #       "purpose": "test"
-  #     }
-  #     token = client.generate_token(sample_payload)
-  #     expect(token).to be_present
-  #     decoded_token = JWT.decode token, client.secret
-  #     expect(decoded_token).to include(hash_including("app" => "hyku", "purpose" => "test"))
-  #   end
-  # end
-  #
-  # it 'takes a default payload structure' do
-  #   token = client.generate_token
-  #   decoded_token = JWT.decode token, client.secret
-  #   expect(decoded_token).to include(hash_including("iat" => a_kind_of(Integer), "exp" => a_kind_of(Integer)))
-  # end
 end
