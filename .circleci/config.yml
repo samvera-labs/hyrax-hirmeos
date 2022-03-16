@@ -42,7 +42,6 @@ jobs:
       SETTINGS__BULKRAX__ENABLED: "true"
       RUBYOPT: "-W:no-deprecated -W:no-experimental"
       REDIS_NAMESPACE_QUIET: "true"
-      ORCID_ENVIRONMENT: sandbox
 
     steps:
       - samvera/cached_checkout
@@ -62,11 +61,7 @@ jobs:
           solr_config_path: 'spec/internal_test_hyrax/solr/config'
 
       - run:
-          name: Install Hyrax Orcid
-          command: bundle exec rails g hyrax:orcid:install
-
-      - run:
-          name: Migrate Databse
+          name: Install Hyrax Hirmeos
           command: bundle exec rails g hyrax:hirmeos:install
 
       - run:
