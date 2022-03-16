@@ -1,14 +1,15 @@
 # frozen_string_literal: true
-require 'jwt'
 
 class Hyrax::Hirmeos::Client
-  attr_accessor :username, :password, :metrics_base_url, :translation_base_url, :secret
+  attr_accessor :username, :password, :metrics_base_url, :translation_base_url,
+  :token_base_url, :secret
 
-  def initialize(username, password, metrics_base_url, translation_base_url, secret)
+  def initialize(username, password, metrics_base_url, translation_base_url, token_base_url, secret)
     @username = username
     @password = password
     @metrics_base_url = metrics_base_url
     @translation_base_url = translation_base_url
+    @token_base_url = token_base_url
     @secret = secret
   end
 
@@ -36,25 +37,15 @@ class Hyrax::Hirmeos::Client
     id_translation_connection.patch("/uris?UUID=#{hirmeos_uuid}&URI=urn:uuid:#{hyku_uuid}&canonical=true")
   end
 
-  def generate_token(payload = build_payload)
-    JWT.encode(payload, @secret)
+  def request_token
+    response = Faraday.post(URI.join(token_base_url, 'tokens'), { email: username, password: password }.to_json)
+    JSON.parse(response.body)['data'][0]['token']
   end
 
   Work = Struct.new(:title, :uri, :type, :parent, :children)
   FileSet = Struct.new(:title, :uri, :type, :parent, :children)
 
   private
-
-  def build_payload
-    {
-      'authority': 'user',
-      'email': '',
-      'exp': Time.now.to_i + 900, # 15 minutes from creation recommended, which is 900 seconds
-      'iat': Time.now.to_i,
-      'name': '',
-      'sub': ''
-    }
-  end
 
   def id_translation_connection
     connection_for(translation_base_url)
@@ -67,7 +58,7 @@ class Hyrax::Hirmeos::Client
   def connection_for(url)
     Faraday.new(url) do |conn|
       conn.adapter Faraday.default_adapter # net/http
-      conn.authorization :Bearer, generate_token
+      conn.token_auth(request_token)
     end
   end
 end

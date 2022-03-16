@@ -1,9 +1,12 @@
 # frozen_string_literal: true
 class Hyrax::Hirmeos::MetricsTracker
-  class_attribute :username, :password, :metrics_base_url, :translation_base_url, :secret, :work_factory, :file_set_factory
+  class_attribute :username, :password, :metrics_base_url, :token_base_url, :translation_base_url,
+                  :secret, :work_factory, :file_set_factory
 
   def client
-    @client ||= Hyrax::Hirmeos::Client.new(username, password, metrics_base_url, translation_base_url, secret)
+    @client ||= Hyrax::Hirmeos::Client.new(username, password, metrics_base_url,
+                                           translation_base_url, token_base_url,
+                                           secret)
   end
 
   def submit_work_to_hirmeos(work_id, work_json)
