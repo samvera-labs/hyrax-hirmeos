@@ -1,6 +1,6 @@
 # Hyrax::Hirmeos
 
-`Hyrax::Hirmeos` is responsible for sending Hyrax works and file set unique identifiers to OPERAS/HIRMEOS so that Alt-metrics can be collected and displayed. Metrics are a traditional way to measure popularity of publications in the scientific community (i.e. how many time a paper has been cited). Information about the HIRMEOS project can be found here https://www.hirmeos.eu/
+`Hyrax::Hirmeos` is responsible for sending Hyrax works and file set unique identifiers to OPERAS/HIRMEOS so that Alt-metrics can be collected and displayed. Metrics are a traditional way to measure popularity of publications in the scientific community (i.e. how many times a paper has been cited). Information about the HIRMEOS project can be found here https://www.hirmeos.eu/
 
 ## Usage
 
