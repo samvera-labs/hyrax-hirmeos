@@ -70,6 +70,8 @@ rescue ActiveRecord::PendingMigrationError => e
   exit 1
 end
 
+include Warden::Test::Helpers
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -80,7 +82,16 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
 
   config.before :suite do
-    WebMock.disable_net_connect!(allow: ['localhost', '127.0.0.1', 'fedora', 'fedora-test', 'solr', 'solr-test', 'https://chromedriver.storage.googleapis.com'])
+    WebMock.disable_net_connect!(allow: [
+                                   'localhost',
+                                   '127.0.0.1',
+                                   'fedora',
+                                   'fedora-test',
+                                   'solr',
+                                   'solr-test',
+                                   'https://chromedriver.storage.googleapis.com',
+                                   'fcrepo'
+                                 ])
     Rails.application.routes.default_url_options[:host] = 'localhost:3000'
     Hyrax::Engine.routes.default_url_options[:host] = 'localhost:3000'
     Rails.application.routes.default_url_options[:protocol] = 'https'

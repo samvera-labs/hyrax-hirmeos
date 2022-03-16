@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.name        = "hyrax-hirmeos"
   spec.version     = Hyrax::Hirmeos::VERSION
   spec.authors     = ["BertZZ"]
-  spec.email       = ["bertie.wooles@gmail.com", "tech@ubiquitypress.com"]
+  spec.email       = ["tech@ubiquitypress.com", "bertie.wooles@gmail.com"]
   spec.homepage    = ""
   spec.summary     = "A Hyrax plugin to allow collection and display of HIRMEOS metrics"
   spec.description = "Description of Hyrax::Hirmeos."
@@ -27,7 +27,7 @@ Gem::Specification.new do |spec|
   spec.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
 
   spec.add_dependency "rails", "~> 5.2.4", ">= 5.2.4.3"
-  spec.add_dependency "hyrax", "~> 2.8"
+  spec.add_dependency "hyrax", "~> 2.9.6"
   spec.add_dependency "jwt"
 
   spec.add_development_dependency 'ammeter'

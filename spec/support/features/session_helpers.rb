@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Copied from Hyrax
 # spec/support/features/session_helpers.rb
 module Features

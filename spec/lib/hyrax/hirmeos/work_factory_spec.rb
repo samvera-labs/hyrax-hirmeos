@@ -1,7 +1,7 @@
 # frozen_string_literal: true
+
 require 'hyrax/hirmeos/work_factory'
 require 'hyrax/hirmeos/client'
-require 'rails_helper'
 
 RSpec.describe Hyrax::Hirmeos::WorkFactory do
   WebMock.allow_net_connect!
