@@ -13,7 +13,7 @@ Gem::Specification.new do |spec|
   spec.homepage    = ""
   spec.summary     = "A Hyrax plugin to allow collection and display of HIRMEOS metrics"
   spec.description = "Description of Hyrax::Hirmeos."
-  spec.license     = "MIT"
+  spec.license     = "Apache"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
