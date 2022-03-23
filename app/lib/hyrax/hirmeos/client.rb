@@ -4,7 +4,6 @@ module Hyrax
   module Hirmeos
     class Client
       def initialize(username:, password:, secret:, translation_base_url:, token_base_url:)
-
         @username = username
         @password = password
         @translation_base_url = translation_base_url
