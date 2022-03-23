@@ -4,9 +4,11 @@ class Hyrax::Hirmeos::MetricsTracker
                   :secret, :work_factory, :file_set_factory
 
   def client
-    @client ||= Hyrax::Hirmeos::Client.new(username, password, metrics_base_url,
-                                           translation_base_url, token_base_url,
-                                           secret)
+    @client ||= Hyrax::Hirmeos::Client.new(username: username,
+                                           password: password,
+                                           secret: secret,
+                                           translation_base_url: translation_base_url,
+                                           token_base_url: token_base_url)
   end
 
   def submit_work_to_hirmeos(work_id, work_json)

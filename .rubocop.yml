@@ -18,9 +18,6 @@ RSpec/ExampleLength:
 Layout/LineLength:
   Max: 250
 
-Metrics/ParameterLists:
-  Max: 6
-
 RSpec/DescribedClass:
   Exclude:
     - 'spec/lib/hyrax/hirmeos_spec.rb'

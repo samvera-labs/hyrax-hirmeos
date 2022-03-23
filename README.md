@@ -4,35 +4,42 @@
 
 ## Install into your Hyrax/Hyku installation
 
-### Setting up HIRMEOS
-1) Set up tokens service
-https://github.com/hirmeos/tokens_api
-The tokens API is used to authenticate the other hirmeos services when they talk to each other.
+### Setting up HIRMEOS  
+
+1) [Set up tokens service](https://github.com/hirmeos/tokens_api)  
+
+The tokens API is used to authenticate the other HIRMEOS services when they talk to each other.
 The service will request a token from the tokens API, and use the token to authenticate an
 HTTP request to either the metrics-api or the identifier translation service.
 
-2) Set up translator service
-https://github.com/hirmeos/identifier_translation_service
-The identifier translation service houses the various identifiers that belong to a work (uuids,
-dois, landing page url, download links, etc). Once it is set up, each work that you want to track
+
+2) [Set up translator service](https://github.com/hirmeos/identifier_translation_service)  
+
+The identifier translation service houses the various identifiers that belong to a work (UUIDS,
+DOIS, landing page url, download links, etc). Once it is set up, each work that you want to track
 metrics for must be registered in this service.
 It is highly recommended that you register a canonical identifier for each type of identifier a
 given work has. This is most important for the identifier that is queried when fetching metrics
 from the metrics API.
 
-3) Set up metrics API:
-https://github.com/hirmeos/metrics-api
+
+3) [Set up metrics API](https://github.com/hirmeos/metrics-api)  
+
 The metrics API stores metrics collected by the HIRMEOS services, and can be queried to fetch metrics
 for a given work.
 
-4) Configure drivers - either of the following can be used to collect views/downloads metrics:
-https://github.com/hirmeos/access_logs_driver
-https://github.com/hirmeos/google_analytics_driver
+
+4) Configure drivers  
+
+Either of the following can be used to collect views/downloads metrics:
+- https://github.com/hirmeos/access_logs_driver
+- https://github.com/hirmeos/google_analytics_driver
 Once the drivers are configured, they should run, every day, collecting metrics.
 
-5) Send metrics to metrics API.
-Can be done using this tool:
-https://github.com/hirmeos/metrics_submission
+
+5) Send metrics to metrics API
+
+Can be done using [this tool](https://github.com/hirmeos/metrics_submission).
 This is a simple tool for posting metrics, that have been collected, to the metrics API on a daily basis.
 
 ## Installation

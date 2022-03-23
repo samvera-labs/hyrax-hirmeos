@@ -107,9 +107,10 @@ RSpec.configure do |config|
   end
 
   config.before do
+    body = { "data" => [{ "token" => "exampleToken" }], "code" => 200, "status" => "ok" }.to_json
+    stub_request(:post, "#{Hyrax::Hirmeos::MetricsTracker.token_base_url}/tokens").to_return(status: 200, body: body)
     stub_request(:any, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/works")
     stub_request(:post, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/uris")
-    stub_request(:post, "#{Hyrax::Hirmeos::MetricsTracker.token_base_url}/tokens").to_return(status: 200, body: { "data" => [{ "token" => "exampleToken" }], "code" => 200, "status" => "ok" }.to_json)
     stub_request(:get, Addressable::Template.new("#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/translate?uri=urn:uuid:{id}")).to_return(status: 200)
   end
 

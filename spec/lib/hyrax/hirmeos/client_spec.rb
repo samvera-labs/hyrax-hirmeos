@@ -5,12 +5,11 @@ require 'jwt'
 
 RSpec.describe Hyrax::Hirmeos::Client do
   subject(:client) do
-    described_class.new(Hyrax::Hirmeos::MetricsTracker.username,
-                                         Hyrax::Hirmeos::MetricsTracker.password,
-                                         Hyrax::Hirmeos::MetricsTracker.metrics_base_url,
-                                         Hyrax::Hirmeos::MetricsTracker.translation_base_url,
-                                         Hyrax::Hirmeos::MetricsTracker.token_base_url,
-                                         Hyrax::Hirmeos::MetricsTracker.secret)
+    described_class.new(username: Hyrax::Hirmeos::MetricsTracker.username,
+                        password: Hyrax::Hirmeos::MetricsTracker.password,
+                        secret: Hyrax::Hirmeos::MetricsTracker.secret,
+                        translation_base_url: Hyrax::Hirmeos::MetricsTracker.translation_base_url,
+                        token_base_url: Hyrax::Hirmeos::MetricsTracker.token_base_url)
   end
   let(:work) { create(:work) }
 
