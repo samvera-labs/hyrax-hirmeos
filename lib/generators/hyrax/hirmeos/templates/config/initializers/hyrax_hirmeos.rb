@@ -13,6 +13,7 @@ Hyrax::Hirmeos::MetricsTracker.username = ENV["HIRMEOS_USERNAME"]
 Hyrax::Hirmeos::MetricsTracker.password = ENV["HIRMEOS_PASSWORD"]
 Hyrax::Hirmeos::MetricsTracker.metrics_base_url = ENV["HIRMEOS_METRICS_BASE_URL"]
 Hyrax::Hirmeos::MetricsTracker.translation_base_url = ENV["HIRMEOS_TRANSLATION_BASE_URL"]
+Hyrax::Hirmeos::MetricsTracker.token_base_url = ENV["HIRMEOS_TOKEN_BASE_URL"]
 Hyrax::Hirmeos::MetricsTracker.secret = ENV['HIRMEOS_TRANSLATOR_KEY']
 Hyrax::Hirmeos::MetricsTracker.work_factory = Hyrax::Hirmeos::WorkFactory
 Hyrax::Hirmeos::MetricsTracker.file_set_factory = Hyrax::Hirmeos::FileSetFactory

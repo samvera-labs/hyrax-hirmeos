@@ -100,12 +100,15 @@ RSpec.configure do |config|
     Hyrax::Hirmeos::MetricsTracker.password = "Password"
     Hyrax::Hirmeos::MetricsTracker.metrics_base_url = "https://metrics.example.com"
     Hyrax::Hirmeos::MetricsTracker.translation_base_url = "https://translator.example.com"
+    Hyrax::Hirmeos::MetricsTracker.token_base_url = "https://tokens.example.com"
     Hyrax::Hirmeos::MetricsTracker.secret = "myt$stkey"
     Hyrax::Hirmeos::MetricsTracker.work_factory = Hyrax::Hirmeos::WorkFactory
     Hyrax::Hirmeos::MetricsTracker.file_set_factory = Hyrax::Hirmeos::FileSetFactory
   end
 
   config.before do
+    body = { "data" => [{ "token" => "exampleToken" }], "code" => 200, "status" => "ok" }.to_json
+    stub_request(:post, "#{Hyrax::Hirmeos::MetricsTracker.token_base_url}/tokens").to_return(status: 200, body: body)
     stub_request(:any, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/works")
     stub_request(:post, "#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/uris")
     stub_request(:get, Addressable::Template.new("#{Hyrax::Hirmeos::MetricsTracker.translation_base_url}/translate?uri=urn:uuid:{id}")).to_return(status: 200)
